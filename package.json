@@ -16,7 +16,9 @@
         "postcss": "^8.3.11"
     },
     "dependencies": {
+        "@tailwindcss/forms": "^0.3.4",
         "autoprefixer": "^10.3.7",
+        "feather-icons": "^4.28.0",
         "tailwindcss": "^2.2.17"
     }
 }
