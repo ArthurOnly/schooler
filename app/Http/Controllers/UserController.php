@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\User\UpdateUserRequest;
+use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -11,14 +15,11 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function indexTeachers()
+    public function index(Request $request)
     {
-        return view('users.index-teachers');
-    }
-
-    public function indexStudents()
-    {
-        return view('users.index-students');
+        $type = $request->query('type', ['student','teacher','coordinator']);
+        $users = User::role($type)->paginate();
+        return view('users.index', ['users' => $users]);
     }
 
     /**
@@ -50,7 +51,9 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::find($id);
+        $roles = Role::all()->pluck('name');
+        return view('users.show', ['user' => $user, 'roles' => $roles]);
     }
 
     /**
@@ -61,7 +64,9 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::find($id);
+        $roles = Role::all()->pluck('name');
+        return view('users.edit', ['user' => $user, 'roles' => $roles]);
     }
 
     /**
@@ -71,9 +76,18 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateUserRequest $request, $id)
     {
-        //
+        try {
+            $user = User::find($id);
+            $user->syncRoles($request->roles);
+            $user->fill($request->all());
+            $user->save();
+            notify()->success('Atualizado com sucesso!');
+        } catch(Exception $ex) {
+            notify()->error('Erro.');
+        }
+        return redirect()->route('users.show', $user->id);
     }
 
     /**
@@ -84,6 +98,11 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try{
+            User::destroy($id);
+        } catch(Exception $ex){
+            notify()->error('Erro.');
+        }
+        return redirect()->route('users.index');
     }
 }

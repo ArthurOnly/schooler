@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @notifyCss
 </head>
 
 <body>
@@ -25,7 +26,7 @@
             <ul>
                 <!-- Items Section -->
                 <li class="hover:bg-gray-100">
-                    <a href="."
+                    <a href="{{route('users.index', ['type' => 'teacher'])}}"
                         class="h-16 px-6 flex flex items-center w-full
 					focus:text-orange-500">
                         <i data-feather="book-open"></i><span class="ml-2">Professores</span>
@@ -33,7 +34,7 @@
                 </li>
 
                 <li class="hover:bg-gray-100">
-                    <a href="."
+                    <a href="{{route('users.index', ['type' => 'student'])}}"
                         class="h-16 px-6 flex flex items-center w-full
 					focus:text-orange-500">
                         <i data-feather="users"></i><span class="ml-2">Alunos</span>
@@ -41,7 +42,7 @@
                 </li>
 
                 <li class="hover:bg-gray-100">
-                    <a href="."
+                    <a href="{{route('classes.index')}}"
                         class="h-16 px-6 flex flex items-center w-full
 					focus:text-orange-500">
                         <i data-feather="square"></i><span class="ml-2">Turmas</span>
@@ -52,8 +53,8 @@
 
             <div class="mt-auto h-16 flex items-center w-full">
                 <!-- Action Section -->
-                <button
-                    class="h-16 w-10 mx-auto flex flex justify-center items-center
+                <a href="{{route('auth.logout')}}"
+                    class="h-16 w-full mx-auto flex flex justify-center items-center
 				w-full focus:text-orange-500 hover:bg-red-200 focus:outline-none">
                     <svg class="h-5 w-5 text-red-700" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -62,8 +63,7 @@
                         <polyline points="16 17 21 12 16 7"></polyline>
                         <line x1="21" y1="12" x2="9" y2="12"></line>
                     </svg>
-
-                </button>
+                </a>
             </div>
 
         </aside>
@@ -107,7 +107,9 @@
                 </ul>
 
             </nav>
-            @yield('content')
+            <main class="mt-8">
+                @yield('content')
+            </main>
         </div>
 
         <nav class="fixed bottom-0 w-full border bg-white lg:hidden flex
@@ -145,6 +147,10 @@
 
     <!--GLobal scripts-->
     <script src="{{asset('js/app.js')}}"></script>
+
+    <!--Notification-->
+    <x:notify-messages />
+    @notifyJs
 </body>
 
 </html>

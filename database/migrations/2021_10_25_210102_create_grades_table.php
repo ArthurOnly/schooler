@@ -17,7 +17,7 @@ class CreateGradesTable extends Migration
             $table->id();
             $table->smallInteger('grade');
             $table->foreignId('student_id')->constrained('users');
-            $table->foreignId('class_id')->constrained('classes');
+            $table->foreignId('classroom_id')->constrained();
             $table->timestamps();
         });
     }
