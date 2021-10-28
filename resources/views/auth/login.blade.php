@@ -18,7 +18,7 @@
                 <label class="ml-2">Mantenha-me logado</label>
             </div>
             <div class="mt-4">
-                <button class="bg-primary p-2 text-white w-full mb-2">Login</button>
+                <button class="bg-green-700 p-2 text-white w-full mb-2">Login</button>
                 <a href="#">Esqueci minha senha</a>
             </div>
         </form>

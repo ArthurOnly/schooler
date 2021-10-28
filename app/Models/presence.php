@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Presence extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'class_student_id',
+        'classroom_id'
+    ];
 }

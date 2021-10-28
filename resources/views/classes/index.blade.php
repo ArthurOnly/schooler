@@ -4,7 +4,7 @@
 <section>
   <div class="container mx-auto p-6 font-mono">
     <div class="mb-4">
-      <a href="{{route('classes.create')}}" class="bg-primary p-2 text-white w-full mb-2 max-w-lg">Criar nova</a>
+      <a href="{{route('classes.create')}}" class="bg-green-700 p-2 text-white w-full mb-2 max-w-lg">Criar nova</a>
     </div>
     <div class="w-full mb-8 overflow-hidden rounded-lg">
       <div class="w-full overflow-x-auto">
@@ -25,6 +25,8 @@
                 <td class="px-4 py-3 text-ms border">{{sizeOf($class->students)}}</td>
                 <td class="px-4 py-3 text-ms border">
                 <a href="{{route('classes.show', $class->id)}}">Visualizar</a>
+                <p class="inline"> | </p>
+                <a href="{{route('classes.aulas', $class->id)}}">Gerenciar</a>
                 </td>
               </tr>
             @endforeach

@@ -39,7 +39,7 @@
             </div>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 mt-4 gap-4">
-            <button type="submit" class="bg-primary p-2 text-white w-full mb-2 max-w-lg">Criar</button>
+            <button type="submit" class="bg-green-700 p-2 text-white w-full mb-2 max-w-lg">Criar</button>
         </div>
     </form>
 </section>

@@ -17,25 +17,23 @@
         <div class="grid grid-cols-1 md:grid-cols-2 mt-4 gap-4">
             <div class="flex flex-col">
                 <label class="mb-2">Nome</label>
-                <input disabled type="text" name="name" value="{{$class->name}}"/>
+                <p>{{$class->name}}</p>
             </div>
             <div class="flex flex-col">
                 <label class="mb-2">Professor</label>
-                <input disabled type="email" name="teacher" value="{{$class->teacher->name}}"/>
+                <a href="{{route('users.show', $class->teacher->id)}}">
+                        <span class="flex gap-2 mb-2"> <i data-feather="eye"></i>{{$class->teacher->name}} <span>
+                </a>
             </div>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 mt-4 gap-4">
             <div class="flex flex-col">
-                <label class="mb-2">Função</label>
-                <select disabled name="role" multiple>
-                    @foreach ($class->students as $student)
-                        <option 
-                         selected
-                         >
-                         {{$student->name}}
-                        </option>
-                    @endforeach
-                </select>
+                <label class="mb-2">Alunos</label>
+                @foreach ($class->students as $student)
+                    <a href="{{route('users.show', $student->user->id)}}">
+                        <span class="flex gap-2 mb-2"> <i data-feather="eye"></i>{{$student->user->name}} <span>
+                    </a>
+                @endforeach
             </div>
         </div>
     </form>

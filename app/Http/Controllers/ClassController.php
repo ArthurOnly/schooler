@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Classroom;
 use App\Models\ClassStudent;
+use App\Models\Grade;
+use App\Models\Presence;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -46,7 +48,9 @@ class ClassController extends Controller
         try{
             $class = Classroom::create($request->all());
             foreach($request->students as $student){
-                ClassStudent::create(['classroom_id' => $class->id, 'student_id' => $student]);
+                $classStudent = ClassStudent::create(['classroom_id' => $class->id, 'student_id' => $student]);
+                Presence::create(['classroom_id' => $class->id, 'class_student_id' => $classStudent->id]);
+                Grade::create(['classroom_id' => $class->id, 'class_student_id' => $classStudent->id]);
             }
             DB::commit();
             notify()->success('Criado com sucesso!');
@@ -84,6 +88,11 @@ class ClassController extends Controller
         return view('classes.edit', ['class' => $class, 'teachers' => $teachers, 'students' => $students]);
     }
 
+    public function aulas($id){
+        $class = Classroom::find($id);
+        return view('classes.aulas', ['class' => $class]);
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -97,13 +106,13 @@ class ClassController extends Controller
         DB::beginTransaction();
         try{
             $class->fill($request->all());
+            $class->save();
             foreach ($class->students as $student){
                 ClassStudent::where('classroom_id', $class->id)->delete();
             }
             foreach($request->students as $student){
                 ClassStudent::create(['classroom_id' => $class->id, 'student_id' => $student]);
             }
-            $class->save();
             DB::commit();
             notify()->success('Editado com sucesso!');
             return redirect()->route('classes.show', $class->id);

@@ -20,10 +20,7 @@ class AuthController extends Controller
     public function loginHandler(LoginRequest $request){
         if (Auth::attempt($request->validated(), $request->input('remember', false))){
             $request->session()->regenerate();
-            
-            if (auth()->user()->hasRole('coordinator')) return redirect('/dashboard-coordinator');
-            if (auth()->user()->hasRole('teacher')) return redirect('/dashboard-teacher');
-            if (auth()->user()->hasRole('student')) return redirect('/dashboard-student');
+            return redirect('/dashboard');
         }
         notify()->error('Credenciais incorretas.');
         return redirect()->route('auth.login')->withErrors(['message' => 'Login Error'])->withInput();
@@ -38,10 +35,7 @@ class AuthController extends Controller
             $user = User::create($request->all());
             $user->assignRole('client');
             Auth::login($user);
-            
-            if (auth()->user()->hasRole('coordinator')) return redirect('/dashboard-coordinator');
-            if (auth()->user()->hasRole('teacher')) return redirect('/dashboard-teacher');
-            if (auth()->user()->hasRole('student')) return redirect('/dashboard-student');
+            return redirect('/dashboard');
         } catch(Exception $ex){
             return redirect()->route('auth.register')->withErrors(['message' => $ex->__toString()])->withInput($request->input());
         }

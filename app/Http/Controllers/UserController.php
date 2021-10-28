@@ -6,6 +6,7 @@ use App\Http\Requests\User\UpdateUserRequest;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
@@ -29,7 +30,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        $roles = Role::all()->pluck('name');
+        return view('users.create', ['roles' => $roles]);
     }
 
     /**
@@ -40,7 +42,15 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $request->merge(['password' => Hash::make('123')]);
+            $user = User::create($request->all());
+            $user->syncRoles($request->roles);
+            notify()->success('Criado com sucesso!');
+        } catch(Exception $ex) {
+            notify()->error('Erro.');
+        }
+        return redirect()->route('users.index');
     }
 
     /**

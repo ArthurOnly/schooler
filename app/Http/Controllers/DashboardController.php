@@ -6,15 +6,14 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function cordinator(){     
-        return view('dashboards.coordinator');
-    }
-
-    public function teacher(){      
-        return view('dashboards.teacher');
-    }
-
-    public function student(){   
-        return view('dashboards.student');
+    /**
+     * Handle the incoming request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function __invoke(Request $request)
+    {
+        return view('dashboard');
     }
 }

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,12 +32,12 @@ Route::group(['prefix' => 'auth', 'middleware' => ['guest']], function(){
 Route::group(['middleware' => ['auth']], function(){
     Route::get('/auth/logout', [AuthController::class, 'logout'])->name('auth.logout');
     
-    Route::get('/dashboard-coordinator', [DashboardController::class, 'cordinator'])->name('dashboard.coordinator');
-    Route::get('/dashboard-teacher', [DashboardController::class, 'teacher'])->name('dashboard.teacher');
-    Route::get('/dashboard-student', [DashboardController::class, 'student'])->name('dashboard.student');
+    Route::get('/dashboard', DashboardController::class)->name('dashboard');
 
     Route::group(['prefix' => 'users'], function(){
         Route::get('/', [UserController::class, 'index'])->name('users.index');
+        Route::post('/', [UserController::class, 'store'])->name('users.store');
+        Route::get('/create', [UserController::class, 'create'])->name('users.create');
         Route::get('/{id}', [UserController::class, 'show'])->name('users.show');
         Route::get('/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
         Route::put('/{id}', [UserController::class, 'update'])->name('users.update');
@@ -49,7 +50,19 @@ Route::group(['middleware' => ['auth']], function(){
         Route::get('/create', [ClassController::class, 'create'])->name('classes.create');
         Route::get('/{id}', [ClassController::class, 'show'])->name('classes.show');
         Route::get('/{id}/edit', [ClassController::class, 'edit'])->name('classes.edit');
+        Route::get('/{id}/aulas', [ClassController::class, 'aulas'])->name('classes.aulas');
+        Route::put('/{id}/aulas', [ClassController::class, 'aulasUpdate'])->name('classes.aulas.update');
         Route::put('/{id}', [ClassController::class, 'update'])->name('classes.update');
         Route::delete('/{id}', [ClassController::class, 'destroy'])->name('classes.delete');
+    });
+
+    Route::group(['prefix' => 'payments'], function(){
+        Route::get('/', [PaymentController::class, 'index'])->name('payments.index');
+        Route::get('/create', [PaymentController::class, 'create'])->name('payments.create');
+        Route::get('/{id}/edit', [PaymentController::class, 'edit'])->name('payments.edit');
+        Route::get('/{id}', [PaymentController::class, 'show'])->name('payments.show');
+        Route::post('/', [PaymentController::class, 'store'])->name('payments.store');
+        Route::put('/{id}', [PaymentController::class, 'update'])->name('payments.update');
+        Route::delete('/{id}', [PaymentController::class, 'destroy'])->name('payments.delete');
     });
 });

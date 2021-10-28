@@ -13,4 +13,16 @@ class ClassStudent extends Model
         'student_id',
         'classroom_id'
     ];
+
+    public function absence(){
+        return $this->hasOne(Presence::class);
+    }
+
+    public function grade(){
+        return $this->hasOne(Grade::class);
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class, 'student_id');
+    }
 }
