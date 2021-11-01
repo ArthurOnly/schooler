@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Pagamentos')
+
 @section('content')
 <section class="container mx-auto p-6 bg-white">
   <form method="POST" action="{{route('payments.update', $payment->id)}}">
@@ -27,7 +29,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 mt-4 gap-4">
             <div class="flex flex-col">
                 <label class="mb-2">Mês de referência</label>
-                <input required type="date" name='reference' value="{{old('reference', $payment->reference)}}"/>
+                <input required type="month" name='reference' value="{{old('reference', $payment->reference)}}"/>
             </div>
             <div class="flex flex-col">
                 <label class="mb-2">Pago</label>

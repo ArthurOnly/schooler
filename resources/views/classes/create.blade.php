@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Classes')
+
 @section('content')
 <section class="container mx-auto p-6 bg-white">
   <form method="POST" action="{{route('classes.store')}}">

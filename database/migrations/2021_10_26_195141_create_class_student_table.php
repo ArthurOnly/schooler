@@ -17,6 +17,8 @@ class CreateClassStudentTable extends Migration
             $table->id();
             $table->foreignId('student_id')->constrained('users');
             $table->foreignId('classroom_id')->constrained();
+            $table->tinyInteger('score')->nullable();
+            $table->tinyInteger('absences')->default(0);
             $table->timestamps();
         });
     }

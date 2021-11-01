@@ -1,7 +1,10 @@
 @extends('layouts.app')
 
+@section('title', 'Pagamentos')
+
 @section('content')
 <section class="container mx-auto p-6 bg-white">
+    @hasanyrole('financial')
     <div class="flex justify-between">
     <span></span>
     <div class="flex gap-4">
@@ -13,21 +16,22 @@
         </form>
     </div>
   </div>
+  @endhasanyrole('financial')
   <form>
         <div class="grid grid-cols-1 md:grid-cols-2 mt-4 gap-4">
             <div class="flex flex-col">
                 <label class="mb-2">Value</label>
-                <input required type="text" name="value" value="{{old('value', $payment->value)}}"/>
+                <input required disabled type="text" name="value" value="{{old('value', $payment->value)}}"/>
             </div>
             <div class="flex flex-col">
                 <label class="mb-2" for="students">Aluno</label>
-                <input required type="text" name="value" value="{{old('value', $payment->user->name)}}"/>
+                <input required disabled type="text" name="value" value="{{old('value', $payment->user->name)}}"/>
             </div>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 mt-4 gap-4">
             <div class="flex flex-col">
                 <label class="mb-2">Mês de referência</label>
-                <input required type="date" name='reference' value="{{old('reference', $payment->reference)}}"/>
+                <input required disabled type="month" name='reference' value="{{old('reference', $payment->reference)}}"/>
             </div>
             <div class="flex flex-col">
                 <label class="mb-2">Pago</label>

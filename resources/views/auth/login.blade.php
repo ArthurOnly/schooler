@@ -1,5 +1,7 @@
 @extends('layouts.guest')
 
+@section('title', 'Login')
+
 @section('content')
     <div class="mx-auto my-auto bg-white px-4 py-4 w-full max-w-lg">
         <h1 class="text-4xl font-bold mb-8">Schooler</h1>

@@ -1,8 +1,12 @@
 @extends('layouts.app')
 
+@section('title', 'Classes')
+
 @section('content')
     <section>
-        <form class="container mx-auto p-6 font-mono">
+        <form class="container mx-auto p-6 font-mono" action="{{ route('classes.aulas.update', $class->id) }}" method="POST">
+        @csrf
+        @method('PUT')
             <div class="w-full mb-8 overflow-hidden rounded-lg">
                 <div class="w-full overflow-x-auto">
                     <table class="w-full">
@@ -19,9 +23,9 @@
                                 <tr class="text-gray-700">
                                     <td class="px-4 py-3 text-ms border">{{ $student->user->name }}</td>
                                     <td class="px-4 py-3 text-ms border"><input type="number" class="border"
-                                            name="faltas_{{ $student->id }}" value="{{ $student->absences }}"></input></td>
+                                            name="students[{{ $student->id }}][absences]" value="{{ $student->absences }}"></input></td>
                                     <td class="px-4 py-3 text-ms border"><input type="number" class="border"
-                                            name="nota_{{ $student->id }}"></input></td>
+                                            name="students[{{ $student->id }}][score]" value="{{ $student->score }}"></input></td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -29,7 +33,7 @@
                 </div>
             </div>
             <div class="mb-4">
-                <button type='submit' href="{{ route('classes.aulas.update', $class->id) }}"
+                <button type='submit'
                     class="bg-green-700 p-2 text-white w-full mb-2 max-w-lg">Atualizar</button>
             </div>
         </form>

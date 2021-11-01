@@ -1,16 +1,20 @@
 @extends('layouts.app')
 
+@section('title', 'Classes')
+
 @section('content')
 <section class="container mx-auto p-6 bg-white">
   <div class="flex justify-between">
     <h1 class="text-2xl mb-8">{{$class->name}}</h1>
     <div class="flex gap-4">
+        @hasanyrole('director|coordinator')
         <a href="{{route('classes.edit', $class->id)}}" class="flex"><i data-feather="edit"></i><span class="ml-2">Editar</span> </a>
         <form method="POST" action={{route('classes.delete', $class->id)}} onsubmit="return confirm('Você tem certeza que quer deletar a classe?')">
             @csrf
             @method('DELETE')
             <button type="submit" class="flex text-red-700"><i data-feather="user-minus"></i><span class="ml-2">Deletar</span> </a>
         </form>
+        @endhasanyrole
     </div>
   </div>
   <form>

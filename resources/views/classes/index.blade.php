@@ -1,11 +1,15 @@
 @extends('layouts.app')
 
+@section('title', 'Classes')
+
 @section('content')
 <section>
   <div class="container mx-auto p-6 font-mono">
+    @hasanyrole('director|coordinator|secretary')
     <div class="mb-4">
       <a href="{{route('classes.create')}}" class="bg-green-700 p-2 text-white w-full mb-2 max-w-lg">Criar nova</a>
     </div>
+    @endhasanyrole
     <div class="w-full mb-8 overflow-hidden rounded-lg">
       <div class="w-full overflow-x-auto">
         <table class="w-full">
@@ -25,8 +29,10 @@
                 <td class="px-4 py-3 text-ms border">{{sizeOf($class->students)}}</td>
                 <td class="px-4 py-3 text-ms border">
                 <a href="{{route('classes.show', $class->id)}}">Visualizar</a>
+                @hasanyrole('director|coordinator|secretary|teacher')
                 <p class="inline"> | </p>
                 <a href="{{route('classes.aulas', $class->id)}}">Gerenciar</a>
+                @endhasanyrole
                 </td>
               </tr>
             @endforeach
@@ -34,7 +40,7 @@
         </table>
       </div>
     </div>
-    {{ $classes->links() }}     
+    {{ method_exists($classes,'links') ?  $classes->links() : ''}}     
   </div>
 </section>
 @endsection

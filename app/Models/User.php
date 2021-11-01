@@ -46,4 +46,12 @@ class User extends Authenticatable
     public function payments(){
         return $this->hasMany(MonthlyPayment::class);
     }
+
+    public function classrooms(){
+        return $this->belongsToMany(Classroom::class, 'class_students', 'student_id');
+    }
+
+    public function classrooms_teacher(){
+        return $this->hasMany(Classroom::class, 'teacher_id');
+    }
 }

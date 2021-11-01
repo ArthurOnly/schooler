@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Usuários')
+
 @section('content')
 <section class="container mx-auto p-6 bg-white">
   <form method="POST" action="{{route('users.store')}}">
@@ -24,6 +26,18 @@
                          value={{$role}}
                          >
                          {{$role}}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="flex flex-col">
+                <label class="mb-2">Polo</label>
+                <select required name="polo_id">
+                    @foreach ($polos as $polo)
+                        <option 
+                         value={{$polo->id}}
+                         >
+                         {{$polo->name}}
                         </option>
                     @endforeach
                 </select>

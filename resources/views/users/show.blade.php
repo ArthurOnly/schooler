@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Usuários')
+
 @section('content')
     <section class="container mx-auto p-6 bg-white">
         <div class="flex justify-between">

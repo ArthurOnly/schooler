@@ -17,7 +17,7 @@ class CreateMonthlyPaymentsTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->string('value');
-            $table->date('reference');
+            $table->string('reference');
             $table->boolean('paid')->default(false);
             $table->string('file');
             $table->timestamps();

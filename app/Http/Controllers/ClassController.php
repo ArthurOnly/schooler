@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Classrooom\EditClassroomDataRequest;
 use App\Models\Classroom;
 use App\Models\ClassStudent;
 use App\Models\Grade;
@@ -48,9 +49,7 @@ class ClassController extends Controller
         try{
             $class = Classroom::create($request->all());
             foreach($request->students as $student){
-                $classStudent = ClassStudent::create(['classroom_id' => $class->id, 'student_id' => $student]);
-                Presence::create(['classroom_id' => $class->id, 'class_student_id' => $classStudent->id]);
-                Grade::create(['classroom_id' => $class->id, 'class_student_id' => $classStudent->id]);
+                ClassStudent::create(['classroom_id' => $class->id, 'student_id' => $student]);
             }
             DB::commit();
             notify()->success('Criado com sucesso!');
@@ -88,9 +87,20 @@ class ClassController extends Controller
         return view('classes.edit', ['class' => $class, 'teachers' => $teachers, 'students' => $students]);
     }
 
-    public function aulas($id){
-        $class = Classroom::find($id);
-        return view('classes.aulas', ['class' => $class]);
+    public function aulas(EditClassroomDataRequest $request, Classroom $classroom){
+        return view('classes.aulas', ['class' => $classroom]);
+    }
+
+    public function storeScore(EditClassroomDataRequest $request, Classroom $classroom){
+        try{
+            foreach ($request->students as $id => $newData){
+                ClassStudent::find($id)->fill($newData)->save();
+            }
+            notify()->success('Alteardo com sucesso!');
+        } catch (Exception $ex){
+            notify()->error('Erro: '.$ex->__toString());
+        }
+        return redirect()->route('classes.aulas', $classroom->id);
     }
 
     /**
@@ -100,22 +110,31 @@ class ClassController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Classroom $classroom)
     {
-        $class = Classroom::find($id);
         DB::beginTransaction();
         try{
-            $class->fill($request->all());
-            $class->save();
-            foreach ($class->students as $student){
-                ClassStudent::where('classroom_id', $class->id)->delete();
+            $classroom->fill($request->all());
+            $classroom->save();
+            
+            $actualClassIds = ClassStudent::where('classroom_id', $classroom->id)->pluck('student_id');
+            $newIds = collect($request->students);
+
+            foreach($newIds as $id){
+                if (!$actualClassIds->contains($id)){
+                    ClassStudent::create(['student_id' => $id, 'classroom_id' => $classroom->id]);
+                }
             }
-            foreach($request->students as $student){
-                ClassStudent::create(['classroom_id' => $class->id, 'student_id' => $student]);
+
+            foreach($actualClassIds as $id){
+                if (!$newIds->contains($id)){
+                    ClassStudent::where(['student_id' => $id, 'classroom_id' => $classroom->id])->delete();
+                }
             }
+           
             DB::commit();
             notify()->success('Editado com sucesso!');
-            return redirect()->route('classes.show', $class->id);
+            return redirect()->route('classes.show', $classroom->id);
         } catch (Exception $ex){
             DB::rollBack();
             notify()->error('Erro: '.$ex->__toString());

@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PoloController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -38,9 +39,10 @@ Route::group(['middleware' => ['auth']], function(){
         Route::get('/', [UserController::class, 'index'])->name('users.index');
         Route::post('/', [UserController::class, 'store'])->name('users.store');
         Route::get('/create', [UserController::class, 'create'])->name('users.create');
-        Route::get('/{id}', [UserController::class, 'show'])->name('users.show');
+        Route::get('/{user}', [UserController::class, 'show'])->name('users.show');
         Route::get('/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
-        Route::put('/{id}', [UserController::class, 'update'])->name('users.update');
+        Route::put('/{user}', [UserController::class, 'update'])->name('users.update');
+        Route::get('/{user}/classrooms', [UserController::class, 'classrooms'])->name('users.classes');
         Route::delete('/{id}', [UserController::class, 'destroy'])->name('users.delete');
     });
 
@@ -50,9 +52,9 @@ Route::group(['middleware' => ['auth']], function(){
         Route::get('/create', [ClassController::class, 'create'])->name('classes.create');
         Route::get('/{id}', [ClassController::class, 'show'])->name('classes.show');
         Route::get('/{id}/edit', [ClassController::class, 'edit'])->name('classes.edit');
-        Route::get('/{id}/aulas', [ClassController::class, 'aulas'])->name('classes.aulas');
-        Route::put('/{id}/aulas', [ClassController::class, 'aulasUpdate'])->name('classes.aulas.update');
-        Route::put('/{id}', [ClassController::class, 'update'])->name('classes.update');
+        Route::get('/{classroom}/aulas', [ClassController::class, 'aulas'])->name('classes.aulas');
+        Route::put('/{classroom}/aulas', [ClassController::class, 'storeScore'])->name('classes.aulas.update');
+        Route::put('/{classroom}', [ClassController::class, 'update'])->name('classes.update');
         Route::delete('/{id}', [ClassController::class, 'destroy'])->name('classes.delete');
     });
 
@@ -65,4 +67,6 @@ Route::group(['middleware' => ['auth']], function(){
         Route::put('/{id}', [PaymentController::class, 'update'])->name('payments.update');
         Route::delete('/{id}', [PaymentController::class, 'destroy'])->name('payments.delete');
     });
+
+    Route::resource('polo', PoloController::class);
 });

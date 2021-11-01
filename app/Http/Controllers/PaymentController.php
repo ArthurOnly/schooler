@@ -16,8 +16,19 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        $payments = MonthlyPayment::paginate();
-        return view('payments.index', ['payments' => $payments]);
+        $students = User::role('student')->paginate();
+        foreach ($students as $student){
+            $student->qtd_not_paid = 0;
+            $student->qtd_paid = 0;
+            foreach($student->payments as $payment){
+                if ($payment->paid){
+                    $student->qtd_not_paid += 1;
+                } else{
+                    $student->qtd_paid += 1;
+                }
+            }
+        }
+        return view('payments.index', ['users' => $students]);
     }
 
     /**

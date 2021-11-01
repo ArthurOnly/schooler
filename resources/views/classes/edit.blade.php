@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Classes')
+
 @section('content')
 <section class="container mx-auto p-6 bg-white">
   <form method="POST" action="{{route('classes.update', $class->id)}}">
@@ -34,7 +36,7 @@
                     @foreach ($students as $student)
                         <option 
                             @foreach ($class->students as $classStudents)
-                                @if ($student->id == $classStudents->id)
+                                @if ($student->id == $classStudents->user->id)
                                     selected
                                 @endif
                             @endforeach

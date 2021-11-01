@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\User\ShowUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
+use App\Models\Polo;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -31,7 +33,8 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::all()->pluck('name');
-        return view('users.create', ['roles' => $roles]);
+        $polos = Polo::all();
+        return view('users.create', ['roles' => $roles, 'polos' => $polos]);
     }
 
     /**
@@ -59,9 +62,8 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(ShowUserRequest $request, User $user)
     {
-        $user = User::find($id);
         $roles = Role::all()->pluck('name');
         return view('users.show', ['user' => $user, 'roles' => $roles]);
     }
@@ -86,10 +88,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateUserRequest $request, $id)
+    public function update(UpdateUserRequest $request, User $user)
     {
         try {
-            $user = User::find($id);
             $user->syncRoles($request->roles);
             $user->fill($request->all());
             $user->save();
@@ -114,5 +115,14 @@ class UserController extends Controller
             notify()->error('Erro.');
         }
         return redirect()->route('users.index');
+    }
+
+    public function classrooms(User $user){
+        if ($user->hasRole('teacher')){
+            $classes = $user->classrooms_teacher;
+        } else{
+            $classes = $user->classrooms;
+        }
+        return view('classes.index', ['classes' => $classes]);
     }
 }

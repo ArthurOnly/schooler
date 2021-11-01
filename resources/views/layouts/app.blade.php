@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="{{asset('images/logo.png')}}" />
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <title>Escola técnica - @yield('title')</title>
     @notifyCss
 </head>
 
@@ -16,15 +18,16 @@
 
             <div class="h-16 flex items-center w-full">
                 <!-- Logo Section -->
-                <a class="h-6 w-6 mx-auto" href="{{route('dashboard')}}">
-                    <img class="h-6 w-6 mx-auto"
-                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Svelte_Logo.svg/512px-Svelte_Logo.svg.png"
+                <a class="h-20 w-20 mx-auto" href="{{route('dashboard')}}">
+                    <img class="h-20 w-20 mx-auto"
+                        src="{{asset('images/logo.png')}}"
                         alt="svelte logo" />
                 </a>
             </div>
 
             <ul>
                 <!-- Items Section -->
+                @hasanyrole('director|coordinator|secretary')
                 <li class="hover:bg-gray-100">
                     <a href="{{route('users.index', ['type' => 'teacher'])}}"
                         class="h-16 px-6 flex flex items-center w-full
@@ -32,7 +35,9 @@
                         <i data-feather="book-open"></i><span class="ml-2">Professores</span>
                     </a>
                 </li>
+                @endhasanyrole
 
+                @hasanyrole('director|coordinator|secretary')
                 <li class="hover:bg-gray-100">
                     <a href="{{route('users.index', ['type' => 'student'])}}"
                         class="h-16 px-6 flex flex items-center w-full
@@ -40,7 +45,9 @@
                         <i data-feather="users"></i><span class="ml-2">Alunos</span>
                     </a>
                 </li>
+                @endhasanyrole
 
+                @hasanyrole('director|coordinator|secretary')
                 <li class="hover:bg-gray-100">
                     <a href="{{route('classes.index')}}"
                         class="h-16 px-6 flex flex items-center w-full
@@ -48,7 +55,9 @@
                         <i data-feather="square"></i><span class="ml-2">Turmas</span>
                     </a>
                 </li>
+                @endhasanyrole
 
+                @hasanyrole('director|secretary|financial')
                 <li class="hover:bg-gray-100">
                     <a href="{{route('payments.index')}}"
                         class="h-16 px-6 flex flex items-center w-full
@@ -56,6 +65,27 @@
                         <i data-feather="dollar-sign"></i><span class="ml-2">Financeiro</span>
                     </a>
                 </li>
+                @endhasanyrole
+
+                @hasanyrole('student|teacher')
+                <li class="hover:bg-gray-100">
+                    <a href="{{route('users.classes', auth()->user()->id)}}"
+                        class="h-16 px-6 flex flex items-center w-full
+					focus:text-orange-500">
+                        <i data-feather="square"></i><span class="ml-2">Minhas turmas</span>
+                    </a>
+                </li>
+                @endhasanyrole
+
+                @can('index polos')
+                <li class="hover:bg-gray-100">
+                    <a href="{{route('polo.index')}}"
+                        class="h-16 px-6 flex flex items-center w-full
+					focus:text-orange-500">
+                        <i data-feather="box"></i><span class="ml-2">Polos</span>
+                    </a>
+                </li>
+                @endcan
 
             </ul>
 
@@ -63,14 +93,8 @@
                 <!-- Action Section -->
                 <a href="{{route('auth.logout')}}"
                     class="h-16 w-full mx-auto flex flex justify-center items-center
-				w-full focus:text-orange-500 hover:bg-red-200 focus:outline-none">
-                    <svg class="h-5 w-5 text-red-700" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                        <polyline points="16 17 21 12 16 7"></polyline>
-                        <line x1="21" y1="12" x2="9" y2="12"></line>
-                    </svg>
+				w-full focus:text-orange-500 hover:bg-red-200 focus:outline-none text-red-700">
+                    <i data-feather="log-out"></i><span class="ml-2">Sair</span>
                 </a>
             </div>
 
@@ -97,7 +121,9 @@
                 </ul>
 
                 <ul class="flex items-center">
-
+                    <li>
+                        <h1 class="pl-10 lg:pl-0 text-gray-700">Bem vindo, {{auth()->user()->name}}</h1>
+                    </li>
                 </ul>
 
             </nav>
@@ -110,6 +136,7 @@
 		overflow-x-auto">
             <!-- Bottom Icon Navigation Menu -->
 
+            @hasanyrole('director|coordinator|secretary')
             <a href="."
                 class="flex flex-col flex-grow items-center justify-center
 			overflow-hidden whitespace-no-wrap text-sm transition-colors
@@ -136,6 +163,17 @@
                 <i data-feather="square"></i>
                 <span class="hidden text-sm capitalize">Turmas</span>
             </a>
+            @endhasanyrole
+
+            @hasanyrole('director|secretary|financial')
+            <a href="."
+                class="flex flex-col flex-grow items-center justify-center
+			overflow-hidden whitespace-no-wrap text-sm transition-colors
+			duration-100 ease-in-out hover:bg-gray-200 focus:text-orange-500">
+                <i data-feather="square"></i>
+                <span class="hidden text-sm capitalize">Turmas</span>
+            </a>
+            @endhasanyrole
         </nav>
     </div>
 

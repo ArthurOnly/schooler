@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Pagamentos')
+
 @section('content')
 <section class="container mx-auto p-6 font-mono">
   <div class="mb-4">
@@ -11,24 +13,22 @@
         <thead>
           <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
             <th class="px-4 py-3">Usuário</th>
-            <th class="px-4 py-3">Mês de referência</th>
-            <th class="px-4 py-3">Pago</th>
+            <th class="px-4 py-3">Pagos/Existentes</th>
             <th class="px-4 py-3">Ações</th>
           </tr>
         </thead>
         <tbody class="bg-white">
-          @foreach($payments as $payment)
+          @foreach($users as $user)
             <tr class="text-gray-700">
-              <td class="px-4 py-3 text-ms border">{{$payment->user->name}}</td>
-              <td class="px-4 py-3 text-ms border">{{$payment->reference}}</td>
+              <td class="px-4 py-3 text-ms border">{{$user->name}}</td>
               <td class="px-4 py-3 text-ms border">
-                @if ($payment->paid) 
-                    <span class="p-2 rounded bg-green-700 w-max text-white">Pago</span>
+                @if ($user->qtd_paid >= $user->qtd_not_paid) 
+                    <span class="p-2 rounded bg-green-700 w-max text-white">Em dia - {{$user->qtd_paid}}/{{$user->qtd_not_paid}}</span>
                 @else
-                    <span class="p-2 rounded bg-red-700 w-max text-white">Não pago</span>
+                    <span class="p-2 rounded bg-red-700 w-max text-white">Aguardando - {{$user->qtd_paid}}/{{$user->qtd_not_paid}}</span>
                 @endif</td>
               <td class="px-4 py-3 text-ms border">
-              <a href="{{route('payments.show', $payment->id)}}">Visualizar</a>
+              <a href="{{route('payments.show', $user->id)}}">Visualizar</a>
               </td>
             </tr>
           @endforeach
@@ -36,6 +36,6 @@
       </table>
     </div>
   </div>
-  {{ $payments->links() }}     
+  {{ $users->links() }}     
 </section>
 @endsection

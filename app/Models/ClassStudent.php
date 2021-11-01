@@ -11,16 +11,10 @@ class ClassStudent extends Model
 
     protected $fillable = [
         'student_id',
-        'classroom_id'
+        'classroom_id',
+        'score',
+        'absences'
     ];
-
-    public function absence(){
-        return $this->hasOne(Presence::class);
-    }
-
-    public function grade(){
-        return $this->hasOne(Grade::class);
-    }
 
     public function user(){
         return $this->belongsTo(User::class, 'student_id');
