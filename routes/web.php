@@ -60,6 +60,7 @@ Route::group(['middleware' => ['auth']], function(){
 
     Route::group(['prefix' => 'payments'], function(){
         Route::get('/', [PaymentController::class, 'index'])->name('payments.index');
+        Route::get('/csv', [PaymentController::class, 'exportCsv'])->name('payments.csv');
         Route::get('/create', [PaymentController::class, 'create'])->name('payments.create');
         Route::get('/{id}/edit', [PaymentController::class, 'edit'])->name('payments.edit');
         Route::get('/{id}', [PaymentController::class, 'show'])->name('payments.show');

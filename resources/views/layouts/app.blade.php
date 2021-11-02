@@ -27,25 +27,15 @@
 
             <ul>
                 <!-- Items Section -->
-                @hasanyrole('director|coordinator|secretary')
+                @can('index users')
                 <li class="hover:bg-gray-100">
-                    <a href="{{route('users.index', ['type' => 'teacher'])}}"
-                        class="h-16 px-6 flex flex items-center w-full
+                    <a href="{{route('users.index')}}"
+                        class="h-16 px-6 flex items-center w-full
 					focus:text-orange-500">
-                        <i data-feather="book-open"></i><span class="ml-2">Professores</span>
+                        <i data-feather="users"></i><span class="ml-2">Usuários</span>
                     </a>
                 </li>
-                @endhasanyrole
-
-                @hasanyrole('director|coordinator|secretary')
-                <li class="hover:bg-gray-100">
-                    <a href="{{route('users.index', ['type' => 'student'])}}"
-                        class="h-16 px-6 flex flex items-center w-full
-					focus:text-orange-500">
-                        <i data-feather="users"></i><span class="ml-2">Alunos</span>
-                    </a>
-                </li>
-                @endhasanyrole
+                @endcan
 
                 @hasanyrole('director|coordinator|secretary')
                 <li class="hover:bg-gray-100">

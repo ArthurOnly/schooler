@@ -20,8 +20,11 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $type = $request->query('type', ['student','teacher','coordinator']);
-        $users = User::role($type)->paginate();
+        $type = $request->query('type', '');
+        if (empty($type)) 
+            $type = ['student','teacher','coordinator','director','financial','secretary'];
+        $name = $request->query('name', '');
+        $users = User::role($type)->where('name', 'like', "%$name%")->paginate();
         return view('users.index', ['users' => $users]);
     }
 

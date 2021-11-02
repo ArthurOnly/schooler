@@ -17,13 +17,13 @@ class PaymentController extends Controller
     public function index()
     {
         $students = User::role('student')->paginate();
-        foreach ($students as $student){
+        foreach ($students as $student) {
             $student->qtd_not_paid = 0;
             $student->qtd_paid = 0;
-            foreach($student->payments as $payment){
-                if ($payment->paid){
+            foreach ($student->payments as $payment) {
+                if ($payment->paid) {
                     $student->qtd_not_paid += 1;
-                } else{
+                } else {
                     $student->qtd_paid += 1;
                 }
             }
@@ -50,12 +50,12 @@ class PaymentController extends Controller
      */
     public function store(Request $request)
     {
-        $filename = uniqid().'.'.$request->file('boleto')->extension();
-        $imageUrl = $request->file('boleto')->storeAs('boletos', $filename ,'public');
+        $filename = uniqid() . '.' . $request->file('boleto')->extension();
+        $imageUrl = $request->file('boleto')->storeAs('boletos', $filename, 'public');
         $request->merge(['file' => $imageUrl]);
-        if ($request->paid == 'on'){
+        if ($request->paid == 'on') {
             $request->merge(['paid' => True]);
-        } else{
+        } else {
             $request->merge(['paid' => False]);
         }
         MonthlyPayment::create($request->all());
@@ -97,15 +97,15 @@ class PaymentController extends Controller
     public function update(Request $request, $id)
     {
         $payment = MonthlyPayment::find($id);
-        if ($request->file('boleto')){
+        if ($request->file('boleto')) {
             Storage::delete($payment->file);
-            $filename = uniqid().'.'.$request->file('boleto')->extension();
-            $imageUrl = $request->file('boleto')->storeAs('boletos', $filename ,'public');
+            $filename = uniqid() . '.' . $request->file('boleto')->extension();
+            $imageUrl = $request->file('boleto')->storeAs('boletos', $filename, 'public');
             $request->merge(['file' => $imageUrl]);
-        } 
-        if ($request->paid == 'on'){
+        }
+        if ($request->paid == 'on') {
             $request->merge(['paid' => True]);
-        } else{
+        } else {
             $request->merge(['paid' => False]);
         }
         $payment->fill($request->all());
@@ -125,5 +125,53 @@ class PaymentController extends Controller
         Storage::delete($payment->file);
         MonthlyPayment::destroy($id);
         return redirect()->route('payments.index');
+    }
+
+    public function exportCsv()
+    {
+        $fileName = 'tasks.csv';
+        $users = User::role('student')->get();
+
+        $headers = array(
+            "Content-type"        => "text/csv",
+            "Content-Disposition" => "attachment; filename=$fileName",
+            "Pragma"              => "no-cache",
+            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+            "Expires"             => "0"
+        );
+
+        $columns = array('ID', 'Nome', 'Polo', 'Boletos criados', 'Boletos pagos', 'Situação');
+
+        $callback = function () use ($users, $columns) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, $columns);
+
+            foreach ($users as $user) {
+                $user->qtd_not_paid = 0;
+                $user->qtd_paid = 0;
+                foreach ($user->payments as $payment) 
+                    $payment->paid ? $user->qtd_not_paid += 1 : $user->qtd_paid += 1;
+
+                if ($user->qtd_not_paid == 0){
+                    $row['Situação'] = 'Em dia';
+                } elseif ($user->qtd_not_paid == 1){
+                    $row['Situação'] = 'Aguardando';
+                } else{
+                    $row['Situação'] = 'Em atraso';
+                }
+
+                $row['ID']  = $user->id;
+                $row['Nome'] = $user->name;
+                $row['Polo'] = $user->polo->name;
+                $row['Boletos criados'] = $user->qtd_paid + $user->qtd_not_paid;
+                $row['Boletos pagos'] = $user->qtd_paid;
+
+                fputcsv($file, array($row['ID'], $row['Nome'], $row['Polo'], $row['Boletos criados'], $row['Boletos pagos'], $row['Situação']));
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
     }
 }
