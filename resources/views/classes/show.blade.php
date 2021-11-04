@@ -39,6 +39,10 @@
                     </a>
                 @endforeach
             </div>
+            <div class="flex flex-col">
+                <label class="mb-2">Nome</label>
+                <p>{{$class->polo->name}}</p>
+            </div>
         </div>
     </form>
 </section>

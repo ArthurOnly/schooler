@@ -6,6 +6,7 @@ use App\Http\Requests\Classrooom\EditClassroomDataRequest;
 use App\Models\Classroom;
 use App\Models\ClassStudent;
 use App\Models\Grade;
+use App\Models\Polo;
 use App\Models\Presence;
 use App\Models\User;
 use Exception;
@@ -34,7 +35,8 @@ class ClassController extends Controller
     {
         $teachers = User::role('teacher')->get();
         $students = User::role('student')->get();
-        return view('classes.create', ['teachers' => $teachers, 'students' => $students]);
+        $polos = Polo::all();
+        return view('classes.create', ['teachers' => $teachers, 'students' => $students, 'polos' => $polos]);
     }
 
     /**
@@ -84,7 +86,8 @@ class ClassController extends Controller
         $teachers = User::role('teacher')->get();
         $students = User::role('student')->get();
         $class = Classroom::find($id);
-        return view('classes.edit', ['class' => $class, 'teachers' => $teachers, 'students' => $students]);
+        $polos = Polo::all();
+        return view('classes.edit', ['class' => $class, 'teachers' => $teachers, 'students' => $students, 'polos' => $polos]);
     }
 
     public function aulas(EditClassroomDataRequest $request, Classroom $classroom){

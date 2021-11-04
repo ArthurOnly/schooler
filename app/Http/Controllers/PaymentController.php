@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\MonthlyPayment;
 use App\Models\User;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -18,14 +19,12 @@ class PaymentController extends Controller
     {
         $students = User::role('student')->paginate();
         foreach ($students as $student) {
-            $student->qtd_not_paid = 0;
-            $student->qtd_paid = 0;
+            $student->in_day = TRUE;
             foreach ($student->payments as $payment) {
-                if ($payment->paid) {
-                    $student->qtd_not_paid += 1;
-                } else {
-                    $student->qtd_paid += 1;
-                }
+                $date = new DateTime($payment->reference);
+                $date->modify('+1 month');
+                $now = new DateTime('now');
+                if ($now > $date && !$payment->paid) $student->in_day = FALSE;            
             }
         }
         return view('payments.index', ['users' => $students]);
@@ -140,22 +139,23 @@ class PaymentController extends Controller
             "Expires"             => "0"
         );
 
-        $columns = array('ID', 'Nome', 'Polo', 'Boletos criados', 'Boletos pagos', 'Situação');
+        $columns = array('ID', 'Nome', 'Polo', 'Boletos criados', 'Situação');
 
         $callback = function () use ($users, $columns) {
             $file = fopen('php://output', 'w');
             fputcsv($file, $columns);
 
             foreach ($users as $user) {
-                $user->qtd_not_paid = 0;
-                $user->qtd_paid = 0;
-                foreach ($user->payments as $payment) 
-                    $payment->paid ? $user->qtd_not_paid += 1 : $user->qtd_paid += 1;
+                $user->in_day = TRUE;
+                foreach ($user->payments as $payment) {
+                    $date = new DateTime($payment->reference);
+                    $date->modify('+1 month');
+                    $now = new DateTime('now');
+                    if ($now > $date && !$payment->paid) $user->in_day = FALSE;            
+                }
 
-                if ($user->qtd_not_paid == 0){
+                if ($user->in_day){
                     $row['Situação'] = 'Em dia';
-                } elseif ($user->qtd_not_paid == 1){
-                    $row['Situação'] = 'Aguardando';
                 } else{
                     $row['Situação'] = 'Em atraso';
                 }
@@ -163,10 +163,9 @@ class PaymentController extends Controller
                 $row['ID']  = $user->id;
                 $row['Nome'] = $user->name;
                 $row['Polo'] = $user->polo->name;
-                $row['Boletos criados'] = $user->qtd_paid + $user->qtd_not_paid;
-                $row['Boletos pagos'] = $user->qtd_paid;
+                $row['Boletos criados'] = count($user->payments);
 
-                fputcsv($file, array($row['ID'], $row['Nome'], $row['Polo'], $row['Boletos criados'], $row['Boletos pagos'], $row['Situação']));
+                fputcsv($file, array($row['ID'], $row['Nome'], $row['Polo'], $row['Boletos criados'], $row['Situação']));
             }
 
             fclose($file);

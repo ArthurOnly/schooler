@@ -126,26 +126,18 @@
 		overflow-x-auto">
             <!-- Bottom Icon Navigation Menu -->
 
-            @hasanyrole('director|coordinator|secretary')
-            <a href="."
+            @can('index users')
+            <a href="{{route('users.index')}}"
                 class="flex flex-col flex-grow items-center justify-center
 			overflow-hidden whitespace-no-wrap text-sm transition-colors
 			duration-100 ease-in-out hover:bg-gray-200 focus:text-orange-500">
-
-                <i data-feather="book-open"></i>
-                <span class="hidden text-sm capitalize">Professores</span>
-            </a>
-
-            <a href="."
-                class="flex flex-col flex-grow items-center justify-center
-			overflow-hidden whitespace-no-wrap text-sm transition-colors
-			duration-100 ease-in-out hover:bg-gray-200 text-orange-500">
 
                 <i data-feather="users"></i>
-
-                <span class="text-sm capitalize">Alunos</span>
+                <span class="hidden text-sm capitalize">Usuários</span>
             </a>
+            @endcan
 
+            @can('index classroom')
             <a href="."
                 class="flex flex-col flex-grow items-center justify-center
 			overflow-hidden whitespace-no-wrap text-sm transition-colors
@@ -153,17 +145,29 @@
                 <i data-feather="square"></i>
                 <span class="hidden text-sm capitalize">Turmas</span>
             </a>
-            @endhasanyrole
+            @endcan
 
-            @hasanyrole('director|secretary|financial')
+            @can('index payments')
+            <a href="."
+                class="flex flex-col flex-grow items-center justify-center
+			overflow-hidden whitespace-no-wrap text-sm transition-colors
+			duration-100 ease-in-out hover:bg-gray-200 focus:text-orange-500">
+                <i data-feather="dollar-sign"></i>
+                <span class="hidden text-sm capitalize">Financeiro</span>
+            </a>
+            @endcan
+
+            @hasanyrole('student|teacher')
             <a href="."
                 class="flex flex-col flex-grow items-center justify-center
 			overflow-hidden whitespace-no-wrap text-sm transition-colors
 			duration-100 ease-in-out hover:bg-gray-200 focus:text-orange-500">
                 <i data-feather="square"></i>
-                <span class="hidden text-sm capitalize">Turmas</span>
+                <span class="hidden text-sm capitalize">Minhas turmas</span>
             </a>
             @endhasanyrole
+
+            
         </nav>
     </div>
 

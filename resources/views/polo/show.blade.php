@@ -4,6 +4,7 @@
 
 @section('content')
     <section class="container mx-auto p-6 bg-white">
+        @can ('edit polo')
         <div class="flex justify-between">
             <h1 class="text-2xl mb-8">{{ $polo->name }}</h1>
             <div class="flex gap-4">
@@ -18,6 +19,7 @@
                 </form>
             </div>
         </div>
+        @endcan
         <form>
             <div class="grid grid-cols-1 md:grid-cols-2 mt-4 gap-4">
                 <div class="flex flex-col">

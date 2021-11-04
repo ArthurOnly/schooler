@@ -25,15 +25,10 @@
                             <tr class="text-gray-700">
                                 <td class="px-4 py-3 text-ms border">{{ $user->name }}</td>
                                 <td class="px-4 py-3 text-ms border">
-                                    @if ($user->qtd_paid >= $user->qtd_not_paid)
-                                        <span class="p-2 rounded bg-green-700 w-max text-white">Em dia -
-                                            {{ $user->qtd_paid }}/{{ $user->qtd_not_paid }}</span>
-                                    @elseif ($user->qtd_not_paid - $user->qtd_paid == 1)
-                                        <span class="p-2 rounded bg-yellow-700 w-max text-white">Aguardando -
-                                            {{ $user->qtd_paid }}/{{ $user->qtd_not_paid }}</span>
+                                    @if ($user->in_day)
+                                        <span class="p-2 rounded bg-green-700 w-max text-white">Em dia</span>
                                     @else
-                                        <span class="p-2 rounded bg-red-700 w-max text-white">Atrasado -
-                                            {{ $user->qtd_paid }}/{{ $user->qtd_not_paid }}</span>
+                                        <span class="p-2 rounded bg-red-700 w-max text-white">Em atraso</span>
                                     @endif
                                 </td>
                                 <td class="px-4 py-3 text-ms border">

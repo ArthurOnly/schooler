@@ -11,7 +11,8 @@ class Classroom extends Model
 
     protected $fillable = [
         'teacher_id',
-        'name'
+        'name',
+        'polo_id'
     ];
 
     public function teacher(){
@@ -20,6 +21,10 @@ class Classroom extends Model
 
     public function students(){
         return $this->hasMany(ClassStudent::class);
+    }
+
+    public function polo(){
+        return $this->belongsTo(Polo::class);
     }
     
 }
