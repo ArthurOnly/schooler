@@ -24,13 +24,17 @@
                 <p>{{$class->name}}</p>
             </div>
             <div class="flex flex-col">
+                <label class="mb-2">Curso</label>
+                <p>{{$class->course}}</p>
+            </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 mt-4 gap-4">
+            <div class="flex flex-col">
                 <label class="mb-2">Professor</label>
                 <a href="{{route('users.show', $class->teacher->id)}}">
                         <span class="flex gap-2 mb-2"> <i data-feather="eye"></i>{{$class->teacher->name}} <span>
                 </a>
             </div>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 mt-4 gap-4">
             <div class="flex flex-col">
                 <label class="mb-2">Alunos</label>
                 @foreach ($class->students as $student)
@@ -40,8 +44,12 @@
                 @endforeach
             </div>
             <div class="flex flex-col">
-                <label class="mb-2">Nome</label>
+                <label class="mb-2">Polo</label>
                 <p>{{$class->polo->name}}</p>
+            </div>
+            <div class="flex flex-col">
+                <label class="mb-2">Criado em</label>
+                <p>{{$class->created_at}}</p>
             </div>
         </div>
     </form>

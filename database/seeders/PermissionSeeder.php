@@ -58,14 +58,14 @@ class PermissionSeeder extends Seeder
         );
         Role::create(['name' => 'coordinator'])->syncPermissions(
             [
-                $index_users, $show_user, $create_users, $edit_users, $delete_users,
+                $index_users, $show_user,
                 $index_payments,
                 $index_classroom, $create_classroom, $edit_classroom, $delete_classroom, $notas_classroom
             ]
         );
         Role::create(['name' => 'secretary'])->syncPermissions(
             [
-                $index_users, $show_user, $create_users, $edit_users, $delete_users,
+                $index_users, $show_user, $create_users,
                 $index_payments,
                 $index_classroom, $create_classroom, $edit_classroom, $delete_classroom,
                 $index_polos

@@ -18,6 +18,7 @@ class CreateClassesTable extends Migration
             $table->foreignId('teacher_id')->constrained('users');
             $table->foreignId('polo_id')->constrained();
             $table->string('name');
+            $table->string('course');
             $table->timestamps();
         });
     }

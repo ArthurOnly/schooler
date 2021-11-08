@@ -5,9 +5,19 @@
 @section('content')
     <section class="container mx-auto p-6 font-mono">
         <div class="mb-4 flex justify-between">
-            <a href="{{ route('payments.create') }}" class="bg-green-700 p-2 text-white w-max mb-2 max-w-lg">Criar nova</a>
-            <a href="{{ route('payments.csv') }}" download
-                class="border-2 border-green-700 w-max p-2 text-green-700 mb-2 max-w-lg">Gerar relatório</a>
+            <form class="flex gap-4" action="{{ route('payments.index') }}" method="GET">
+                <div class="flex flex-col gap-2">
+                    <label>Nome</label>
+                    <input type="text" name="name" value={{ request()->query('name', '') }}></input>
+                </div>
+                <button type="submit" class="bg-green-700 p-2 text-white h-auto mt-auto">Buscar</button>
+            </form>
+            <div class="mb-4 flex justify-between items-center">
+                <a href="{{ route('payments.create') }}" class="bg-green-700 p-2 text-white w-max mb-2 max-w-lg mr-2">Criar
+                    novo boleto</a>
+                <a href="{{ route('payments.csv') }}" download
+                    class="border-2 border-green-700 w-max p-2 text-green-700 mb-2 max-w-lg">Gerar relatório</a>
+            </div>
         </div>
         <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
             <div class="w-full overflow-x-auto">

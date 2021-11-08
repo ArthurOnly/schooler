@@ -16,6 +16,7 @@
           <thead>
             <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
               <th class="px-4 py-3">Nome</th>
+              <th class="px-4 py-3">Curso</th>
               <th class="px-4 py-3">Polo</th>
               <th class="px-4 py-3">Professor</th>
               <th class="px-4 py-3">Estudantes</th>
@@ -26,6 +27,7 @@
             @foreach($classes as $class)
               <tr class="text-gray-700">
                 <td class="px-4 py-3 text-ms border">{{$class->name}}</td>
+                <td class="px-4 py-3 text-ms border">{{$class->course}}</td>
                 <td class="px-4 py-3 text-ms border">{{$class->polo->name}}</td>
                 <td class="px-4 py-3 text-ms border">{{$class->teacher->name}}</td>
                 <td class="px-4 py-3 text-ms border">{{sizeOf($class->students)}}</td>

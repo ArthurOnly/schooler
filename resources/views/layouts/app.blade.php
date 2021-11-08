@@ -130,10 +130,10 @@
             <a href="{{route('users.index')}}"
                 class="flex flex-col flex-grow items-center justify-center
 			overflow-hidden whitespace-no-wrap text-sm transition-colors
-			duration-100 ease-in-out hover:bg-gray-200 focus:text-orange-500">
+			duration-100 ease-in-out hover:bg-gray-200 focus:text-orange-500 py-4">
 
                 <i data-feather="users"></i>
-                <span class="hidden text-sm capitalize">Usuários</span>
+                <span class="text-sm capitalize">Usuários</span>
             </a>
             @endcan
 
@@ -141,9 +141,9 @@
             <a href="."
                 class="flex flex-col flex-grow items-center justify-center
 			overflow-hidden whitespace-no-wrap text-sm transition-colors
-			duration-100 ease-in-out hover:bg-gray-200 focus:text-orange-500">
+			duration-100 ease-in-out hover:bg-gray-200 focus:text-orange-500 py-4">
                 <i data-feather="square"></i>
-                <span class="hidden text-sm capitalize">Turmas</span>
+                <span class="text-sm capitalize">Turmas</span>
             </a>
             @endcan
 
@@ -151,9 +151,9 @@
             <a href="."
                 class="flex flex-col flex-grow items-center justify-center
 			overflow-hidden whitespace-no-wrap text-sm transition-colors
-			duration-100 ease-in-out hover:bg-gray-200 focus:text-orange-500">
+			duration-100 ease-in-out hover:bg-gray-200 focus:text-orange-500 py-4">
                 <i data-feather="dollar-sign"></i>
-                <span class="hidden text-sm capitalize">Financeiro</span>
+                <span class="text-sm capitalize">Financeiro</span>
             </a>
             @endcan
 
@@ -161,9 +161,9 @@
             <a href="."
                 class="flex flex-col flex-grow items-center justify-center
 			overflow-hidden whitespace-no-wrap text-sm transition-colors
-			duration-100 ease-in-out hover:bg-gray-200 focus:text-orange-500">
+			duration-100 ease-in-out hover:bg-gray-200 focus:text-orange-500 py-4">
                 <i data-feather="square"></i>
-                <span class="hidden text-sm capitalize">Minhas turmas</span>
+                <span class="text-sm capitalize">Minhas turmas</span>
             </a>
             @endhasanyrole
 

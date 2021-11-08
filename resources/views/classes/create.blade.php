@@ -13,6 +13,12 @@
                 <input type="text" name="name" value="{{old('name')}}"/>
             </div>
             <div class="flex flex-col">
+                <label class="mb-2">Curso</label>
+                <input type="text" name="course" value="{{old('course')}}"/>
+            </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 mt-4 gap-4">
+            <div class="flex flex-col">
                 <label class="mb-2">Professor</label>
                 </select>
                 <select class="p-2" name="teacher_id" value="{{old('teacher_id')}}" id='teacher'>
@@ -25,8 +31,6 @@
                     @endforeach
                 </select>
             </div>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 mt-4 gap-4">
             <div class="flex flex-col">
                 <label class="mb-2">Alunos</label>
                 <select id='students' name="students[]" multiple class="py-4">

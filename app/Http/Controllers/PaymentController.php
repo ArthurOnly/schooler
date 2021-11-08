@@ -15,9 +15,10 @@ class PaymentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $students = User::role('student')->paginate();
+        $name = $request->query('name', '');
+        $students = User::role('student')->where('name', 'like', "%$name%")->paginate();
         foreach ($students as $student) {
             $student->in_day = TRUE;
             foreach ($student->payments as $payment) {
