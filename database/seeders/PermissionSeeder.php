@@ -34,6 +34,7 @@ class PermissionSeeder extends Seeder
         $index_classroom = Permission::create(['name' => 'index classroom']);
         $show_classroom = Permission::create(['name' => 'show classroom']);
         $notas_classroom = Permission::create(['name' => 'notas classroom']);
+        $show_notas_classroom = Permission::create(['name' => 'notas classroom show']);
         $create_classroom = Permission::create(['name' => 'create classroom']);
         $edit_classroom = Permission::create(['name' => 'edit classroom']);
         $delete_classroom = Permission::create(['name' => 'delete classroom']);
@@ -60,7 +61,7 @@ class PermissionSeeder extends Seeder
             [
                 $index_users, $show_user,
                 $index_payments,
-                $index_classroom, $create_classroom, $edit_classroom, $delete_classroom, $notas_classroom
+                $index_classroom, $create_classroom, $edit_classroom, $delete_classroom, $notas_classroom, $show_notas_classroom
             ]
         );
         Role::create(['name' => 'secretary'])->syncPermissions(
@@ -68,7 +69,7 @@ class PermissionSeeder extends Seeder
                 $index_users, $show_user, $create_users,
                 $index_payments,
                 $index_classroom, $create_classroom, $edit_classroom, $delete_classroom,
-                $index_polos
+                $index_polos, $show_notas_classroom
             ]
         );
         Role::create(['name' => 'financial'])->syncPermissions(

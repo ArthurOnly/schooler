@@ -13,7 +13,7 @@ class EditClassroomDataRequest extends FormRequest
      */
     public function authorize()
     {
-        if (auth()->user()->hasRole(['director|coordinator|secretary']) || auth()->user()->id == $this->classroom->teacher_id){
+        if (auth()->user()->can('notas classroom') || auth()->user()->id == $this->classroom->teacher_id){
             return true;
         };
         return false;

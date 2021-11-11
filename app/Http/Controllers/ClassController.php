@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Classrooom\EditClassroomDataRequest;
+use App\Http\Requests\Classrooom\ShowClassroomNOtas;
 use App\Models\Classroom;
 use App\Models\ClassStudent;
 use App\Models\Grade;
@@ -90,7 +91,7 @@ class ClassController extends Controller
         return view('classes.edit', ['class' => $class, 'teachers' => $teachers, 'students' => $students, 'polos' => $polos]);
     }
 
-    public function aulas(EditClassroomDataRequest $request, Classroom $classroom){
+    public function aulas(ShowClassroomNOtas $request, Classroom $classroom){
         return view('classes.aulas', ['class' => $classroom]);
     }
 

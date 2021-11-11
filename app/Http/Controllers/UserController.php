@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\User\DeleteUserRequest;
+use App\Http\Requests\User\EditUserRequest;
 use App\Http\Requests\User\ShowUserRequest;
+use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Models\Polo;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
@@ -46,15 +49,17 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
         try {
-            $request->merge(['password' => Hash::make('123')]);
+            $pass = Str::random(8);
+            $request->merge(['password' => $pass]);
             $user = User::create($request->all());
             $user->syncRoles($request->roles);
             notify()->success('Criado com sucesso!');
+            return redirect()->route('users.index')->withSuccess(['message' => "Senha gerada: $pass"]);
         } catch(Exception $ex) {
-            notify()->error('Erro.');
+            notify()->error("Erro. $ex");
         }
         return redirect()->route('users.index');
     }
@@ -77,7 +82,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(EditUserRequest $request, $id)
     {
         $user = User::find($id);
         $roles = Role::all()->pluck('name');
@@ -110,7 +115,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(DeleteUserRequest $request, $id)
     {
         try{
             User::destroy($id);

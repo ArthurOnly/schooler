@@ -6,6 +6,7 @@
     <section class="container mx-auto p-6 bg-white">
         <div class="flex justify-between">
             <h1 class="text-2xl mb-8">{{ $user->name }}</h1>
+            @can('edit user')
             <div class="flex gap-4">
                 <a href="{{ route('users.edit', $user->id) }}" class="flex"><i data-feather="edit"></i><span
                         class="ml-2">Editar</span> </a>
@@ -17,6 +18,7 @@
                             class="ml-2">Deletar</span> </a>
                 </form>
             </div>
+            @endcan
         </div>
         <form>
             <div class="grid grid-cols-1 md:grid-cols-2 mt-4 gap-4">

@@ -4,6 +4,9 @@
 
 @section('content')
     <section class="container mx-auto p-6 font-mono">
+        @if(session()->has('success'))
+            <h2 class="bg-green-700 p-4 mb-4">{{session('success')['message']}}</h2>
+        @endif
         <div class="mb-4 flex justify-between">
             <form class="flex gap-4" action="{{route('users.index')}}" method="GET">
                 <div class="flex flex-col gap-2">
@@ -24,8 +27,10 @@
                 </div>
                 <button type="submit" class="bg-green-700 p-2 text-white h-auto mt-auto">Buscar</button>
             </form>
+            @can('create users')
             <a href="{{ route('users.create') }}" class="bg-green-700 p-2 text-white mb-2 max-w-lg h-full my-auto">Criar
-                nova</a>
+                novo usuário</a>
+            @endcan
         </div>
         <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
             <div class="w-full overflow-x-auto">

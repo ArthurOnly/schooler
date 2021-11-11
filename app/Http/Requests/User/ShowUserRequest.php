@@ -13,7 +13,7 @@ class ShowUserRequest extends FormRequest
      */
     public function authorize()
     {
-        if (auth()->user()->id == $this->user->id || auth()->user()->hasAnyRole(['financial','teacher','director','secretary','coordinator'])){
+        if (auth()->user()->id == $this->user->id || auth()->user()->can('show users')){
             return true;
         }
         return false;

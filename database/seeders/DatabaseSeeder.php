@@ -17,6 +17,6 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(PermissionSeeder::class);
         Polo::create(['name' => 'Ceará-Mirim']);
-        User::factory(10)->create();
+        User::factory(6)->create();
     }
 }

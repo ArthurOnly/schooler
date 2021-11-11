@@ -32,10 +32,12 @@
                     </table>
                 </div>
             </div>
+            @can('notas classroom')
             <div class="mb-4">
                 <button type='submit'
                     class="bg-green-700 p-2 text-white w-full mb-2 max-w-lg">Atualizar</button>
             </div>
+            @endcan
         </form>
     </section>
 @endsection

@@ -4,7 +4,7 @@ namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateUserRequest extends FormRequest
+class EditUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,9 +13,6 @@ class UpdateUserRequest extends FormRequest
      */
     public function authorize()
     {
-        if (auth()->user()->id == $this->user->id || auth()->user()->can('update users')){
-            return true;
-        }
         return false;
     }
 
@@ -27,8 +24,7 @@ class UpdateUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email',
-            'name' => 'required'
+            //
         ];
     }
 }
