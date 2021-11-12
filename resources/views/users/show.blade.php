@@ -6,18 +6,18 @@
     <section class="container mx-auto p-6 bg-white">
         <div class="flex justify-between">
             <h1 class="text-2xl mb-8">{{ $user->name }}</h1>
-            @can('edit user')
-            <div class="flex gap-4">
-                <a href="{{ route('users.edit', $user->id) }}" class="flex"><i data-feather="edit"></i><span
-                        class="ml-2">Editar</span> </a>
-                <form method="POST" action={{ route('users.delete', $user->id) }}
-                    onsubmit="return confirm('Você tem certeza que quer deletar o usuário?')">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="flex text-red-700"><i data-feather="user-minus"></i><span
-                            class="ml-2">Deletar</span> </a>
-                </form>
-            </div>
+            @can('edit users')
+                <div class="flex gap-4">
+                    <a href="{{ route('users.edit', $user->id) }}" class="flex"><i data-feather="edit"></i><span
+                            class="ml-2">Editar</span> </a>
+                    <form method="POST" action={{ route('users.delete', $user->id) }}
+                        onsubmit="return confirm('Você tem certeza que quer deletar o usuário?')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="flex text-red-700"><i data-feather="user-minus"></i><span
+                                class="ml-2">Deletar</span> </a>
+                    </form>
+                </div>
             @endcan
         </div>
         <form>
@@ -45,6 +45,10 @@
                         @endforeach
                     </select>
                 </div>
+                <div class="flex flex-col">
+                <label class="mb-2">Polo</label>
+                <input type="text" value="{{$user->polo->name}}" disabled/>
+            </div>
             </div>
             @if ($user->hasRole('student'))
                 <div class="grid grid-cols-1 md:grid-cols-1 mt-4 gap-4">

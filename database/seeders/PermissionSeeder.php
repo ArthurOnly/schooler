@@ -33,7 +33,7 @@ class PermissionSeeder extends Seeder
 
         $index_classroom = Permission::create(['name' => 'index classroom']);
         $show_classroom = Permission::create(['name' => 'show classroom']);
-        $notas_classroom = Permission::create(['name' => 'notas classroom']);
+        $post_notas_classroom = Permission::create(['name' => 'notas classroom']);
         $show_notas_classroom = Permission::create(['name' => 'notas classroom show']);
         $create_classroom = Permission::create(['name' => 'create classroom']);
         $edit_classroom = Permission::create(['name' => 'edit classroom']);
@@ -44,24 +44,24 @@ class PermissionSeeder extends Seeder
                 $index_users, $show_user, $create_users, $edit_users, $delete_users,
                 $index_payments, $create_payments, $edit_payments, $delete_payments,
                 $index_polos, $create_polos, $edit_polos, $delete_polos,
-                $index_classroom, $create_classroom, $edit_classroom, $delete_classroom
+                $index_classroom, $create_classroom, $edit_classroom, $delete_classroom, $show_notas_classroom
             ]
         );
         Role::create(['name' => 'teacher'])->syncPermissions(
             [
-                $show_classroom, $notas_classroom
+                $show_classroom, $post_notas_classroom
             ]
         );
         Role::create(['name' => 'student'])->syncPermissions(
             [
-                $show_classroom, $notas_classroom
+                $show_classroom, $post_notas_classroom
             ]
         );
         Role::create(['name' => 'coordinator'])->syncPermissions(
             [
                 $index_users, $show_user,
                 $index_payments,
-                $index_classroom, $create_classroom, $edit_classroom, $delete_classroom, $notas_classroom, $show_notas_classroom
+                $index_classroom, $create_classroom, $edit_classroom, $delete_classroom, $post_notas_classroom, $show_notas_classroom
             ]
         );
         Role::create(['name' => 'secretary'])->syncPermissions(

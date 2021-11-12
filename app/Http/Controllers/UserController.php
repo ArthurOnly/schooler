@@ -73,7 +73,8 @@ class UserController extends Controller
     public function show(ShowUserRequest $request, User $user)
     {
         $roles = Role::all()->pluck('name');
-        return view('users.show', ['user' => $user, 'roles' => $roles]);
+        $polos = Polo::all();
+        return view('users.show', ['user' => $user, 'roles' => $roles, 'polos' => $polos]);
     }
 
     /**
@@ -86,7 +87,8 @@ class UserController extends Controller
     {
         $user = User::find($id);
         $roles = Role::all()->pluck('name');
-        return view('users.edit', ['user' => $user, 'roles' => $roles]);
+        $polos = Polo::all();
+        return view('users.edit', ['user' => $user, 'roles' => $roles, 'polos' => $polos]);
     }
 
     /**
@@ -100,7 +102,10 @@ class UserController extends Controller
     {
         try {
             $user->syncRoles($request->roles);
-            $user->fill($request->all());
+            $user->fill($request->only(['polo_id', 'email', 'name']));
+            if (!empty($request->password)){
+                $user->password = $request->password;
+            }
             $user->save();
             notify()->success('Atualizado com sucesso!');
         } catch(Exception $ex) {

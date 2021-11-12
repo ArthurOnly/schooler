@@ -13,7 +13,7 @@ class UpdateUserRequest extends FormRequest
      */
     public function authorize()
     {
-        if (auth()->user()->id == $this->user->id || auth()->user()->can('update users')){
+        if (auth()->user()->id == $this->user->id || auth()->user()->can('edit users')){
             return true;
         }
         return false;

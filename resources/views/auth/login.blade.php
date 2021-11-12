@@ -21,7 +21,6 @@
             </div>
             <div class="mt-4">
                 <button class="bg-green-700 p-2 text-white w-full mb-2">Login</button>
-                <a href="#">Esqueci minha senha</a>
             </div>
         </form>
     </div>

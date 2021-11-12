@@ -16,7 +16,7 @@ class CreateClassStudentTable extends Migration
         Schema::create('class_students', function (Blueprint $table) {
             $table->id();
             $table->foreignId('student_id')->constrained('users');
-            $table->foreignId('classroom_id')->constrained();
+            $table->foreignId('classroom_id')->constrained()->onDelete('cascade');
             $table->tinyInteger('score')->nullable();
             $table->tinyInteger('absences')->default(0);
             $table->timestamps();

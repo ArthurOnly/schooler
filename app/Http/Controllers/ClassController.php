@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Classrooom\EditClassroomDataRequest;
-use App\Http\Requests\Classrooom\ShowClassroomNOtas;
+use App\Http\Requests\Classrooom\ShowClassroomNotas;
 use App\Models\Classroom;
 use App\Models\ClassStudent;
 use App\Models\Grade;
@@ -91,7 +91,7 @@ class ClassController extends Controller
         return view('classes.edit', ['class' => $class, 'teachers' => $teachers, 'students' => $students, 'polos' => $polos]);
     }
 
-    public function aulas(ShowClassroomNOtas $request, Classroom $classroom){
+    public function aulas(ShowClassroomNotas $request, Classroom $classroom){
         return view('classes.aulas', ['class' => $classroom]);
     }
 
@@ -154,6 +154,8 @@ class ClassController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Classroom::destroy($id);
+        notify()->success('Deletado com sucesso!');
+        return redirect()->route('classes.index');
     }
 }
