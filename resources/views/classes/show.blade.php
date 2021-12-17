@@ -8,6 +8,25 @@
     <h1 class="text-2xl mb-8">{{$class->name}}</h1>
     <div class="flex gap-4">
         @hasanyrole('director|coordinator')
+        <form method="POST" action={{route('classes.store', $class->id)}}>
+            @csrf
+            @method('POST')
+            <input type='hidden' name='name' value='{{$class->name}}-{{uniqid()}}'>
+            <input type='hidden' name='teacher_id' value='{{$class->teacher_id}}'>
+            <input type='hidden' name='course' value='{{$class->course}}'>
+            <input type='hidden' name='polo_id' value='{{$class->polo_id}}'>
+            <select hidden id='students' name="students[]" multiple class="py-4">
+                @foreach ($class->students as $student)
+                    <option 
+                        value="{{$student->id}}"
+                        selected
+                        >
+                        {{$student->name}}
+                    </option>
+                @endforeach
+            </select>
+            <button type="submit" class="flex"><i data-feather="copy"></i><span class="ml-2">Duplicar</span></button>
+        </form>
         <a href="{{route('classes.edit', $class->id)}}" class="flex"><i data-feather="edit"></i><span class="ml-2">Editar</span> </a>
         <form method="POST" action={{route('classes.delete', $class->id)}} onsubmit="return confirm('Você tem certeza que quer deletar a classe?')">
             @csrf

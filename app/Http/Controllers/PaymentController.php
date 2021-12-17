@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\MonthlyPayment;
 use App\Models\User;
+use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -58,7 +59,13 @@ class PaymentController extends Controller
         } else {
             $request->merge(['paid' => False]);
         }
-        MonthlyPayment::create($request->all());
+
+        $initial_date = Carbon::createFromFormat('Y-m-d', $request->reference.'-01');
+        for($i = 0; $i < $request->quantity; $i++){
+            $request['reference'] = $initial_date->format('Y-m');
+            MonthlyPayment::create($request->all());
+            $initial_date = $initial_date->addMonth();
+        }
         return redirect()->route('payments.index');
     }
 
