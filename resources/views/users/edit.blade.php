@@ -26,6 +26,12 @@
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 mt-4 gap-4">
             <div class="flex flex-col">
+                <label class="mb-2">Cpf</label>
+                <input required type="text" name="cpf" value="{{$user->cpf}}"/>
+            </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 mt-4 gap-4">
+            <div class="flex flex-col">
                 <label class="mb-2">Função</label>
                 <select name="roles[]" multiple>
                     @foreach ($roles as $role)

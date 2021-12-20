@@ -21,9 +21,10 @@ class ClassController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $classes = Classroom::paginate();
+        $name = $request->query('name', '');
+        $classes = Classroom::where('name', 'like', "%$name%")->paginate();
         return view('classes.index', ['classes' => $classes]);
     }
 

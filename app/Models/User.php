@@ -23,7 +23,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'polo_id'
+        'polo_id',
+        'cpf'
     ];
 
     /**
