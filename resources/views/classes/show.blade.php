@@ -18,10 +18,10 @@
             <select hidden id='students' name="students[]" multiple class="py-4">
                 @foreach ($class->students as $student)
                     <option 
-                        value="{{$student->id}}"
+                        value="{{$student->student_id}}"
                         selected
                         >
-                        {{$student->name}}
+                        test
                     </option>
                 @endforeach
             </select>

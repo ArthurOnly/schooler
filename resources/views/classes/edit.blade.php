@@ -14,7 +14,7 @@
             </div>
             <div class="flex flex-col">
                 <label class="mb-2">Curso</label>
-                <input type="text" name="course" value="{{old('course')}}"/>
+                <input type="text" name="course" value="{{old('course', $class->course)}}"/>
             </div>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 mt-4 gap-4">
@@ -54,7 +54,7 @@
             <div class="flex flex-col">
                 <label class="mb-2">Polo</label>
                 <select name="polo_id" class="py-4">
-                    @foreach ($polos as $olo)
+                    @foreach ($polos as $polo)
                         <option 
                          value="{{$polo->id}}"
                          @if ($class->polo->id == $polo->id)
